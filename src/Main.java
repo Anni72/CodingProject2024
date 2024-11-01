@@ -6,57 +6,56 @@ import java.util.LinkedList;
 public class Main {
     public static void main(String[] args) throws Exception {
 
-//        String file = "data.txt";
-//
-//        LinkedList<Runner> runners = readRunners(file);
-//
+        String file = "runners.txt";
+
+        LinkedList<Runner> runners = readRunners(file);
+
+        Runner[] sorted = sortRunTimes(runners);
+
+        LinkedList<Runner> selectedRunners = searchRunners(sorted, "mas");
+
+        System.out.println(selectedRunners);
+
 //        System.out.println(runners);
 
         // list for testing functions
-        LinkedList<Runner> test = new LinkedList<>();
-        test.add(new Runner ("Mark", "Hargreaves", "male", "senior", 43.00));
-        test.add(new Runner("Soile", "Kankaanpää", "female", "master", 59.00));
-        test.add(new Runner ("Siiri", "Harg", "female", "youth", 34.12));
-
-        Runner[] sorted = sortRunTimes(test);
-
-        for (Runner out : sorted)
-        System.out.println(out);
+//        LinkedList<Runner> test = new LinkedList<>();
+//        test.add(new Runner ("Mark", "Hargreaves", "male", "senior", 43.00));
+//        test.add(new Runner("Soile", "Kankaanpää", "female", "master", 59.00));
+//        test.add(new Runner ("Siiri", "Harg", "female", "youth", 34.12));
+//
+//        Runner[] sorted = sortRunTimes(test);
+//
+//        for (Runner out : sorted)
+//        System.out.println(out);
 
 
     }
 
 
     // method for reading runners from data.txt and returning a list of runners
-//    static LinkedList<Runner> readRunners (String file) throws Exception {
-//        // create a scanner for the file
-//        Scanner scanner = new Scanner(new File(file));
-//
-//        // storing Runners into a list, because we don't know how many runners there are
-//        LinkedList<Runner> runners = new LinkedList<>();
-//
-//        // read while there are next lines in the file
-//        while (scanner.hasNextLine())
-//        {
-//            // each line has a runner's name (first and last), gender, age group and run time
-//            String firstN = scanner.next();
-//            String lastN = scanner.next();
-//            String gender = scanner.next();
-//            String ageG = scanner.next();
-//
-////            String runtime = scanner.nextLine().trim ();
-////            double runT = Double.valueOf(runtime);
-//
-//            double runT = scanner.nextDouble ();
-//
-//            // ask about trailing whitespace!!!
-//
-//
-//            runners.add(new Runner(firstN, lastN, gender, ageG, runT));
-//        }
-//        // return list
-//        return runners;
-//    }
+    static LinkedList<Runner> readRunners (String file) throws Exception {
+        // create a scanner for the file
+        Scanner scanner = new Scanner(new File(file));
+
+        // storing Runners into a list, because we don't know how many runners there are
+        LinkedList<Runner> runners = new LinkedList<>();
+
+        // read while there are next lines in the file
+        while (scanner.hasNextLine())
+        {
+            // each line has a runner's name (first and last), gender, age group and run time
+            String firstN = scanner.next();
+            String lastN = scanner.next();
+            String gender = scanner.next();
+            String ageG = scanner.next();
+            double runT = scanner.nextDouble ();
+
+            runners.add(new Runner(firstN, lastN, gender, ageG, runT));
+        }
+        // return list
+        return runners;
+    }
 
 
     // sorting runners by their run time from fastest to slowest
@@ -131,11 +130,21 @@ public class Main {
             this.gender = gender;
         }
 
-        public String toString() {
+        public String toString()
+        {
             // abbreviation of gender
             String genderAbrv = "M";
+            String runTimeWithHours = "";
             if (gender.startsWith("f"))
                 genderAbrv = "F";
+
+//            if (runTime > 60)
+//            {
+//                double minutes = runTime - 60;
+//                double roundedMins = Math.round(minutes);
+//                runTimeWithHours = "1." + roundedMins;
+//            }
+
             return genderAbrv + " " + firstName + " " + lastName + ", 10k: " + runTime + ", " + ageGroup;
         }
 
