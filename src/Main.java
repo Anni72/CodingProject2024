@@ -2,38 +2,42 @@ import java.util.Scanner;
 import java.io.File;
 import java.util.LinkedList;
 
-
-public class Main {
+public class Main
+{
     public static void main(String[] args) throws Exception {
 
+        // reading the runners from the file
         String file = "runners.txt";
-
         LinkedList<Runner> runners = readRunners(file);
 
+        // sorting runners according to their run time
         Runner[] sorted = sortRunTimes(runners);
 
-        LinkedList<Runner> selectedRunners = searchRunners(sorted, "mas");
-
-        System.out.println(selectedRunners);
-
-//        System.out.println(runners);
-
-        // list for testing functions
-//        LinkedList<Runner> test = new LinkedList<>();
-//        test.add(new Runner ("Mark", "Hargreaves", "male", "senior", 43.00));
-//        test.add(new Runner("Soile", "Kankaanpää", "female", "master", 59.00));
-//        test.add(new Runner ("Siiri", "Harg", "female", "youth", 34.12));
-//
-//        Runner[] sorted = sortRunTimes(test);
-//
-//        for (Runner out : sorted)
-//        System.out.println(out);
-
-
+        // scanner for reading input for search key from user
+        // searching for runners based on age group or gender
+        Scanner scanner = new Scanner(System.in);
+        boolean running = true;
+        while (running)
+        {
+            String forUser = "('end' to quit) Please type a search key (gender or age group: youth, master, senior): ";
+            System.out.print(forUser);
+            String key = scanner.next();
+            if (key.equals("end"))
+                running = false;
+            else
+            {
+                LinkedList<Runner> selectedRunners = searchRunners(sorted, key);
+                if (selectedRunners.isEmpty())
+                    System.out.println("Runners not found");
+                else
+                    for (Runner out : selectedRunners)
+                        System.out.println(out);
+            }
+            System.out.println();
+        }
     }
 
-
-    // method for reading runners from data.txt and returning a list of runners
+    // method for reading runners from file and returning a list of runners
     static LinkedList<Runner> readRunners (String file) throws Exception {
         // create a scanner for the file
         Scanner scanner = new Scanner(new File(file));
@@ -57,7 +61,6 @@ public class Main {
         return runners;
     }
 
-
     // sorting runners by their run time from fastest to slowest
     static Runner[] sortRunTimes (LinkedList<Runner> runners)
     {
@@ -67,9 +70,8 @@ public class Main {
         for (int i = 0; i < runsInOrder.length; i++)
             runsInOrder[i] = runners.get(i);
 
-       // sorting run times into increasing order into an array
+       // sorting run times into increasing order into the array
         // with selection sort
-
         int s = 0; // index of selected
        while (s < runsInOrder.length - 1)
        {
@@ -91,7 +93,6 @@ public class Main {
            }
            s++;
        }
-
        return runsInOrder;
     }
 
@@ -111,14 +112,13 @@ public class Main {
                keyRunners.add(runner);
             }
         }
-
         return keyRunners;
     }
 }
 
-
 // class Runner
-    class Runner {
+    class Runner
+{
         public String firstName, lastName, gender, ageGroup;
         double runTime;
 
@@ -134,17 +134,8 @@ public class Main {
         {
             // abbreviation of gender
             String genderAbrv = "M";
-            String runTimeWithHours = "";
             if (gender.startsWith("f"))
                 genderAbrv = "F";
-
-//            if (runTime > 60)
-//            {
-//                double minutes = runTime - 60;
-//                double roundedMins = Math.round(minutes);
-//                runTimeWithHours = "1." + roundedMins;
-//            }
-
             return genderAbrv + " " + firstName + " " + lastName + ", 10k: " + runTime + ", " + ageGroup;
         }
 
@@ -158,15 +149,9 @@ public class Main {
             return gender;
         }
 
+        // accessor to get the runner's age group
         public String getAgeGroup ()
         {
             return ageGroup;
         }
-    }
-
-
-
-
-
-
-
+}
